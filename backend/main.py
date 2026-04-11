@@ -50,28 +50,36 @@ app.include_router(settings_router.router)
 @app.on_event("startup")
 def on_startup():
     """Initialize database and seed data on startup."""
-    logger.info("🔨 Creating database tables...")
-    create_tables()
-
-    # Seed base resume from file if DB is empty
-    db = SessionLocal()
     try:
-        existing = db.query(BaseResume).first()
-        if not existing:
-            resume_path = os.path.join("data", "base_resume.md")
-            if os.path.exists(resume_path):
-                with open(resume_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                resume = BaseResume(content_md=content)
-                db.add(resume)
-                db.commit()
-                logger.info("📄 Base resume seeded from file")
+        logger.info("🔨 Creating database tables...")
+        create_tables()
+        logger.info("✅ Database tables created/verified")
+
+        # Seed base resume from file if DB is empty
+        db = SessionLocal()
+        try:
+            existing = db.query(BaseResume).first()
+            if not existing:
+                resume_path = os.path.join("data", "base_resume.md")
+                if os.path.exists(resume_path):
+                    with open(resume_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                    resume = BaseResume(content_md=content)
+                    db.add(resume)
+                    db.commit()
+                    logger.info("📄 Base resume seeded from file")
+                else:
+                    logger.info("ℹ️ No base_resume.md found - skip seeding")
             else:
-                logger.warning("⚠️ No base_resume.md found in data/")
-        else:
-            logger.info("📄 Base resume already exists in DB")
-    finally:
-        db.close()
+                logger.info("📄 Base resume already exists in DB")
+        except Exception as db_error:
+            logger.warning(f"⚠️ Could not seed base resume: {db_error}")
+        finally:
+            db.close()
+    except Exception as startup_error:
+        logger.error(f"❌ Startup error: {startup_error}")
+        # Don't crash - log and continue
+        pass
 
     # Configure Groq
     if getattr(settings, 'GROQ_API_KEY', None):
