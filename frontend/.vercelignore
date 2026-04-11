@@ -1,0 +1,7 @@
+backend/
+.git/
+.gitignore
+DEPLOYMENT.md
+railway.json
+Procfile
+node_modules/
