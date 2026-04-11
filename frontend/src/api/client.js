@@ -1,8 +1,11 @@
 import axios from 'axios'
 
+const baseURL = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api'
+
 const api = axios.create({
-  // Use VITE_API_URL in production, otherwise default to local proxy /api
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL,
   timeout: 120000, // 2 min timeout for AI calls
   headers: {
     'Content-Type': 'application/json',
