@@ -1,6 +1,6 @@
 """
 JobForge — Database Setup
-SQLAlchemy engine, session factory, and table creation for SQLite.
+SQLAlchemy engine for SQLite (dev) and PostgreSQL (prod).
 """
 
 from sqlalchemy import create_engine
@@ -11,11 +11,24 @@ import os
 # Ensure data directory exists
 os.makedirs("data", exist_ok=True)
 
-engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args={"check_same_thread": False},  # Required for SQLite
-    echo=False,
-)
+# Build engine with database-specific config
+database_url = settings.DATABASE_URL
+
+# SQLite needs check_same_thread, PostgreSQL doesn't
+if database_url.startswith("sqlite"):
+    engine = create_engine(
+        database_url,
+        connect_args={"check_same_thread": False},
+        echo=False,
+    )
+else:
+    # PostgreSQL (Railway)
+    engine = create_engine(
+        database_url,
+        echo=False,
+        pool_pre_ping=True,
+        pool_recycle=300,
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
