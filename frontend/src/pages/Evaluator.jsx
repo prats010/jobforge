@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 import ScoreBar from '../components/ScoreBar'
 import JobCard from '../components/JobCard'
@@ -32,6 +33,7 @@ const dimColors = [
 
 export default function Evaluator() {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [mode, setMode] = useState('paste') // 'paste' or 'saved'
   const [jdText, setJdText] = useState('')
   const [jdTitle, setJdTitle] = useState('')
@@ -335,14 +337,14 @@ export default function Evaluator() {
                 {/* Action Buttons */}
                 <div className="flex gap-3">
                   <button
-                    onClick={() => window.location.href = `/cv-tailor?job=${result.job_id}`}
+                    onClick={() => navigate('/cv-tailor')}
                     className="btn-primary flex-1 flex items-center justify-center gap-2"
                   >
                     <FileText className="w-4 h-4" />
                     Tailor Resume
                   </button>
                   <button
-                    onClick={() => window.location.href = `/interview?job=${result.job_id}`}
+                    onClick={() => navigate('/interview')}
                     className="btn-secondary flex-1 flex items-center justify-center gap-2"
                   >
                     <Brain className="w-4 h-4" />
