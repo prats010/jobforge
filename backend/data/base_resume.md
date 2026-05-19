@@ -63,11 +63,11 @@ Coursework: Data Structures, Database Management, Mathematics
 
 ## Technical Skills
 
-| Category | Details |
-|---|---|
-| **Domains** | Machine Learning, Deep Learning, Generative AI, NLP, Computer Vision, Data Science |
-| **Languages** | Python (Pandas, NumPy, Scikit-learn, TensorFlow), SQL, JavaScript |
-| **Tools & Frameworks** | React, Firebase, Hugging Face, GitHub, Jupyter Notebook, VS Code |
+**Domains:** Machine Learning, Deep Learning, Generative AI, NLP, Prompt Engineering, Computer Vision, Data Science
+
+**Languages:** Python (Pandas, NumPy, Scikit-learn, TensorFlow), SQL, JavaScript
+
+**Tools & Frameworks:** React, FastAPI, Firebase, HuggingFace, HeyGen, ChatGPT, Grok AI, GitHub, Jupyter Notebook, VS Code
 
 ---
 

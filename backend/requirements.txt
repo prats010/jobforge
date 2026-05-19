@@ -13,3 +13,5 @@ python-multipart==0.0.9
 markdown==3.6
 aiofiles==23.2.1
 fake-useragent==1.5.1
+pypdf==4.2.0
+pdfminer.six==20260107

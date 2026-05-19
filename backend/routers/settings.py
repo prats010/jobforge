@@ -40,16 +40,3 @@ def get_settings(db: Session = Depends(get_db)):
     )
 
 
-@router.post("/validate-key", response_model=ValidateKeyResponse)
-def validate_key(request: ValidateKeyRequest):
-    """Test if a Groq API key is valid."""
-    try:
-        is_valid = groq_service.validate_api_key(request.api_key)
-        if is_valid:
-            # Re-configure the service with the new key
-            groq_service.configure(request.api_key)
-            return ValidateKeyResponse(valid=True, message="API key is valid! Groq is ready.")
-        else:
-            return ValidateKeyResponse(valid=False, message="API key is invalid or Groq returned an error.")
-    except Exception as e:
-        return ValidateKeyResponse(valid=False, message=f"Validation error: {str(e)}")

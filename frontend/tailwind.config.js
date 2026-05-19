@@ -8,17 +8,17 @@ export default {
     extend: {
       colors: {
         'forge': {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#00FF87',
-          500: '#00e676',
-          600: '#00c853',
-          700: '#009624',
-          800: '#066e30',
-          900: '#064e22',
-          950: '#022c12',
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#ffffff', // Primary accent is white
+          500: '#94a3b8',
+          600: '#64748b',
+          700: '#475569',
+          800: '#334155',
+          900: '#1e293b',
+          950: '#0f172a',
         },
         'dark': {
           50: '#f8fafc',
@@ -46,8 +46,8 @@ export default {
       },
       keyframes: {
         glow: {
-          '0%': { boxShadow: '0 0 5px rgba(0, 255, 135, 0.2), 0 0 20px rgba(0, 255, 135, 0.1)' },
-          '100%': { boxShadow: '0 0 10px rgba(0, 255, 135, 0.4), 0 0 40px rgba(0, 255, 135, 0.2)' },
+          '0%': { boxShadow: '0 0 5px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05)' },
+          '100%': { boxShadow: '0 0 10px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1)' },
         },
         slideUp: {
           '0%': { transform: 'translateY(10px)', opacity: '0' },
@@ -59,7 +59,7 @@ export default {
         },
       },
       backgroundImage: {
-        'grid-pattern': 'linear-gradient(rgba(0, 255, 135, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 135, 0.03) 1px, transparent 1px)',
+        'grid-pattern': 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid': '50px 50px',

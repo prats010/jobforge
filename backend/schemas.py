@@ -131,6 +131,10 @@ class BaseResumeUpdate(BaseModel):
     content_md: str
 
 
+class TailoredCVUpdate(BaseModel):
+    tailored_cv_md: str
+
+
 class TailorResult(BaseModel):
     job_id: int
     tailored_md: str

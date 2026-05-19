@@ -11,7 +11,6 @@ import api from '../api/client'
 
 export default function Settings() {
   const queryClient = useQueryClient()
-  const [apiKey, setApiKey] = useState('')
   const [resumeMd, setResumeMd] = useState('')
   const [previewMode, setPreviewMode] = useState(false)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
@@ -34,20 +33,6 @@ export default function Settings() {
     }
   }, [baseResume])
 
-  // Validate API key
-  const validateMutation = useMutation({
-    mutationFn: (key) => api.post('/settings/validate-key', { api_key: key }).then((r) => r.data),
-    onSuccess: (data) => {
-      if (data.valid) {
-        toast.success(data.message)
-        queryClient.invalidateQueries({ queryKey: ['settings'] })
-      } else {
-        toast.error(data.message)
-      }
-    },
-    onError: () => toast.error('Failed to validate key'),
-  })
-
   // Save resume
   const resumeMutation = useMutation({
     mutationFn: (content) => api.put('/cv/base', { content_md: content }).then((r) => r.data),
@@ -56,6 +41,25 @@ export default function Settings() {
       queryClient.invalidateQueries({ queryKey: ['baseResume'] })
     },
     onError: () => toast.error('Failed to save resume'),
+  })
+
+  // Upload PDF
+  const uploadPdfMutation = useMutation({
+    mutationFn: async (file) => {
+      const formData = new FormData()
+      formData.append('file', file)
+      const r = await api.post('/cv/upload-pdf', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      return r.data
+    },
+    onSuccess: () => {
+      toast.success('PDF extracted and saved!')
+      queryClient.invalidateQueries({ queryKey: ['baseResume'] })
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.detail || 'Failed to upload PDF')
+    }
   })
 
   return (
@@ -69,57 +73,6 @@ export default function Settings() {
           Configure your AI key, resume, and preferences
         </p>
       </div>
-
-      {/* API Key */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-card p-6"
-      >
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
-          <Key className="w-5 h-5 text-forge-400" />
-          Groq API Key
-        </h2>
-
-        <div className="flex items-center gap-2 mb-3">
-          <div className={`w-3 h-3 rounded-full ${settings?.groq_key_set ? 'bg-emerald-400' : 'bg-red-400'}`} />
-          <span className="text-sm text-dark-200">
-            {settings?.groq_key_set
-              ? `Key configured (${settings.groq_key_preview})`
-              : 'No API key set'}
-          </span>
-        </div>
-
-        <div className="flex gap-2">
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Paste your Groq API key..."
-            className="input-field text-sm flex-1 font-mono"
-          />
-          <button
-            onClick={() => validateMutation.mutate(apiKey)}
-            disabled={!apiKey || validateMutation.isPending}
-            className="btn-primary flex items-center gap-2 disabled:opacity-50"
-          >
-            {validateMutation.isPending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Check className="w-4 h-4" />
-            )}
-            Validate & Save
-          </button>
-        </div>
-        <p className="text-[11px] text-dark-400 mt-2">
-          Get a free key at{' '}
-          <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer"
-            className="text-forge-400 hover:underline">
-            console.groq.com/keys
-          </a>
-          {' '}— Llama 3 models, ultra-fast & free for developers
-        </p>
-      </motion.div>
 
       {/* Base Resume Editor */}
       <motion.div
@@ -140,6 +93,29 @@ export default function Settings() {
             >
               {previewMode ? 'Edit' : 'Preview'}
             </button>
+            <div className="relative">
+              <input
+                type="file"
+                accept=".pdf"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) uploadPdfMutation.mutate(file)
+                  e.target.value = ''
+                }}
+                disabled={uploadPdfMutation.isPending}
+              />
+              <button
+                disabled={uploadPdfMutation.isPending}
+                className="btn-secondary text-xs flex items-center gap-1"
+              >
+                {uploadPdfMutation.isPending ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <span className="text-xs font-semibold">Upload PDF</span>
+                )}
+              </button>
+            </div>
             <button
               onClick={() => resumeMutation.mutate(resumeMd)}
               disabled={resumeMutation.isPending}

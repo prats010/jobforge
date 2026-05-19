@@ -19,7 +19,7 @@
   background: white;
   width: 210mm;
   min-height: 297mm;
-  padding: 12mm 15mm; /* Very tight outer margins to fit more text on one page */
+  padding: 8mm 10mm; /* Ultra tight margins to force 1-page fit */
   margin: 0 auto;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
@@ -29,8 +29,8 @@
 /* Base text styling */
 .resume-print-styles {
   color: black !important;
-  font-size: 9.5pt;  /* Standardized tiny bullet-point size */
-  line-height: 1.2;  /* Very tight line height */
+  font-size: 9pt;  /* Standardized tiny bullet-point size */
+  line-height: 1.15;  /* Ultra tight line height */
 }
 
 /* Top Name Header styling specifically */
@@ -81,21 +81,21 @@
 /* Paragraphs and Lists */
 .resume-print-styles p {
   margin-top: 0;
-  margin-bottom: 3pt;
+  margin-bottom: 2pt;
   color: #000 !important;
-  font-size: 9.5pt;
+  font-size: 9pt;
 }
 
 .resume-print-styles ul {
   margin-top: 1pt;
-  margin-bottom: 4pt;
+  margin-bottom: 3pt;
   padding-left: 14pt;
 }
 
 .resume-print-styles li {
   margin-bottom: 1pt;
   color: #000 !important;
-  font-size: 9.5pt;
+  font-size: 9pt;
 }
 
 /* Tables */
