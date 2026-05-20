@@ -164,7 +164,7 @@ export default function InterviewPrep() {
       </div>
 
       {/* Job Selector */}
-      <div className="glass-card p-4 flex items-center gap-4 flex-wrap">
+      <div className="glass-card p-4 flex items-center gap-4 flex-wrap relative hover:z-50 focus-within:z-50">
         <CustomSelect
           value={selectedJobId}
           onChange={setSelectedJobId}
