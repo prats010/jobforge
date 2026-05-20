@@ -39,6 +39,7 @@ export default function Evaluator() {
   const [jdTitle, setJdTitle] = useState('')
   const [jdCompany, setJdCompany] = useState('')
   const [result, setResult] = useState(null)
+  const [evaluatingJobId, setEvaluatingJobId] = useState(null)
 
   // Fetch unevaluated jobs
   const { data: savedJobs, isLoading: jobsLoading } = useQuery({
@@ -65,6 +66,8 @@ export default function Evaluator() {
   // Evaluate saved job mutation
   const evalMutation = useMutation({
     mutationFn: (jobId) => api.post(`/evaluator/evaluate/${jobId}`).then((r) => r.data),
+    onMutate: (jobId) => setEvaluatingJobId(jobId),
+    onSettled: () => setEvaluatingJobId(null),
     onSuccess: (data) => {
       setResult(data)
       toast.success(`Evaluation: ${data.letter_grade} (${data.numeric_score.toFixed(1)}/5.0)`)
@@ -202,7 +205,11 @@ export default function Evaluator() {
                         disabled={isLoading}
                         className="btn-primary text-xs px-3 py-1.5 flex-shrink-0"
                       >
-                        Evaluate
+                        {evalMutation.isPending && evaluatingJobId === job.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin mx-auto" />
+                        ) : (
+                          'Evaluate'
+                        )}
                       </button>
                     </div>
                   ))}

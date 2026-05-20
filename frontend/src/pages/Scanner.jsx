@@ -17,6 +17,7 @@ export default function Scanner() {
   const [selectedSources, setSelectedSources] = useState(['greenhouse', 'lever'])
   const [keywords, setKeywords] = useState(DEFAULT_KEYWORDS)
   const [newKeyword, setNewKeyword] = useState('')
+  const [evaluatingJobId, setEvaluatingJobId] = useState(null)
 
   // Fetch sources
   const { data: sources } = useQuery({
@@ -54,6 +55,8 @@ export default function Scanner() {
   // Evaluate single job
   const evalMutation = useMutation({
     mutationFn: (jobId) => api.post(`/evaluator/evaluate/${jobId}`).then((r) => r.data),
+    onMutate: (jobId) => setEvaluatingJobId(jobId),
+    onSettled: () => setEvaluatingJobId(null),
     onSuccess: (data) => {
       toast.success(`Evaluated: ${data.letter_grade} (${data.numeric_score.toFixed(1)}/5.0)`)
       queryClient.invalidateQueries({ queryKey: ['discoveredJobs'] })
@@ -262,10 +265,10 @@ export default function Scanner() {
                       <button
                         onClick={() => evalMutation.mutate(job.id)}
                         disabled={evalMutation.isPending}
-                        className="btn-secondary text-xs px-3 py-1.5 flex-shrink-0"
+                        className="btn-secondary text-xs px-3 py-1.5 flex-shrink-0 min-w-[70px]"
                       >
-                        {evalMutation.isPending ? (
-                          <Loader2 className="w-3 h-3 animate-spin" />
+                        {evalMutation.isPending && evaluatingJobId === job.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin mx-auto" />
                         ) : (
                           'Evaluate'
                         )}
