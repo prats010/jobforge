@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -40,6 +40,7 @@ export default function Evaluator() {
   const [jdCompany, setJdCompany] = useState('')
   const [result, setResult] = useState(null)
   const [evaluatingJobId, setEvaluatingJobId] = useState(null)
+  const resultsRef = useRef(null)
 
   // Fetch unevaluated jobs
   const { data: savedJobs, isLoading: jobsLoading } = useQuery({
@@ -57,6 +58,9 @@ export default function Evaluator() {
       toast.success(`Evaluation: ${data.letter_grade} (${data.numeric_score.toFixed(1)}/5.0)`)
       queryClient.invalidateQueries({ queryKey: ['unevaluatedJobs'] })
       queryClient.invalidateQueries({ queryKey: ['jobStats'] })
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
     },
     onError: (err) => {
       toast.error(err.response?.data?.detail || 'Evaluation failed')
@@ -73,6 +77,9 @@ export default function Evaluator() {
       toast.success(`Evaluation: ${data.letter_grade} (${data.numeric_score.toFixed(1)}/5.0)`)
       queryClient.invalidateQueries({ queryKey: ['unevaluatedJobs'] })
       queryClient.invalidateQueries({ queryKey: ['jobStats'] })
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
     },
     onError: (err) => {
       toast.error(err.response?.data?.detail || 'Evaluation failed')
@@ -224,7 +231,7 @@ export default function Evaluator() {
         </div>
 
         {/* Right Panel — Results */}
-        <div>
+        <div ref={resultsRef} className="scroll-mt-6">
           <AnimatePresence mode="wait">
             {isLoading ? (
               <motion.div
