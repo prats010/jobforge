@@ -1,9 +1,13 @@
 import { create } from 'zustand'
 
 const useStore = create((set) => ({
-  // Sidebar
+  // Sidebar (Desktop)
   sidebarOpen: false,
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
+
+  // Sidebar (Mobile)
+  mobileSidebarOpen: false,
+  setMobileSidebarOpen: (isOpen) => set({ mobileSidebarOpen: isOpen }),
 
   // Selected job for detail view
   selectedJob: null,
