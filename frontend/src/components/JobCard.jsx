@@ -26,7 +26,7 @@ export default function JobCard({ job, onClick, compact = false }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           {/* Title */}
-          <h3 className="text-sm font-semibold text-white truncate">
+          <h3 className="text-sm font-semibold text-white break-words leading-snug">
             {job.title}
           </h3>
           {/* Company */}
