@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -41,6 +41,13 @@ export default function Evaluator() {
   const [result, setResult] = useState(null)
   const [evaluatingJobId, setEvaluatingJobId] = useState(null)
   const resultsRef = useRef(null)
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Fetch unevaluated jobs
   const { data: savedJobs, isLoading: jobsLoading } = useQuery({
@@ -276,9 +283,9 @@ export default function Evaluator() {
                 <div className="glass-card p-5">
                   <h3 className="text-sm font-semibold text-white mb-3">10-Dimension Analysis</h3>
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={dimData} layout="vertical" margin={{ left: 120 }}>
+                    <BarChart data={dimData} layout="vertical" margin={{ left: 0, right: 10 }}>
                       <XAxis type="number" domain={[0, 5]} stroke="#475569" fontSize={10} fontFamily="JetBrains Mono" />
-                      <YAxis type="category" dataKey="name" stroke="#475569" fontSize={10} width={120} />
+                      <YAxis type="category" dataKey="name" stroke="#475569" fontSize={isMobile ? 9 : 10} width={isMobile ? 95 : 120} />
                       <Tooltip
                         contentStyle={{
                           backgroundColor: '#1a1a2e',
