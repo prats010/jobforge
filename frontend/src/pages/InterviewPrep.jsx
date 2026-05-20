@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import api from '../api/client'
+import CustomSelect from '../components/CustomSelect'
 
 function StoryCard({ story, index }) {
   const [expanded, setExpanded] = useState(false)
@@ -164,18 +165,16 @@ export default function InterviewPrep() {
 
       {/* Job Selector */}
       <div className="glass-card p-4 flex items-center gap-4 flex-wrap">
-        <select
+        <CustomSelect
           value={selectedJobId}
-          onChange={(e) => setSelectedJobId(e.target.value)}
-          className="input-field max-w-md text-sm"
-        >
-          <option value="">Select a job for interview prep...</option>
-          {evaluatedJobs.map((job) => (
-            <option key={job.id} value={job.id}>
-              [{job.score_letter}] {job.title} — {job.company}
-            </option>
-          ))}
-        </select>
+          onChange={setSelectedJobId}
+          options={evaluatedJobs.map((job) => ({
+            value: String(job.id),
+            label: `[${job.score_letter}] ${job.title} — ${job.company}`
+          }))}
+          placeholder="Select a job for interview prep..."
+          className="w-full max-w-md"
+        />
 
         <button
           onClick={() => generateMutation.mutate(Number(selectedJobId))}

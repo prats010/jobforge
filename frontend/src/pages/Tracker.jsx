@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Kanban, ChevronDown } from 'lucide-react'
+import { Kanban } from 'lucide-react'
 import toast from 'react-hot-toast'
 import api from '../api/client'
 import ScoreBar from '../components/ScoreBar'
+import CustomSelect from '../components/CustomSelect'
 
 const COLUMNS = [
   { id: 'discovered', label: 'Discovered', color: '#64748b' },
@@ -34,20 +35,13 @@ function TrackerJobCard({ job, onMove }) {
           </span>
         ) : <div />}
 
-        <div className="relative">
-          <select
-            value={job.status}
-            onChange={(e) => onMove(job.id, e.target.value)}
-            className="appearance-none bg-dark-800/80 border border-dark-600/50 text-[10px] text-dark-200 py-1 pl-2 pr-6 rounded-md outline-none focus:border-forge-400/50 cursor-pointer"
-          >
-            {COLUMNS.map((col) => (
-              <option key={col.id} value={col.id} className="bg-dark-900 text-white">
-                {col.label}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="w-3 h-3 text-dark-400 absolute right-2 top-[5px] pointer-events-none" />
-        </div>
+        <CustomSelect
+          value={job.status}
+          onChange={(newVal) => onMove(job.id, newVal)}
+          options={COLUMNS.map(c => ({ value: c.id, label: c.label }))}
+          className="w-[120px]"
+          small
+        />
       </div>
     </div>
   )
