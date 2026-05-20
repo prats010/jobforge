@@ -81,12 +81,12 @@ export default function Settings() {
         transition={{ delay: 0.1 }}
         className="glass-card p-6"
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <FileText className="w-5 h-5 text-forge-400" />
             Base Resume
           </h2>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <button
               onClick={() => setPreviewMode(!previewMode)}
               className="btn-ghost text-xs"
@@ -158,7 +158,7 @@ export default function Settings() {
         </h2>
 
         {showClearConfirm ? (
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
             <p className="text-sm text-red-400">Are you sure? This cannot be undone.</p>
             <button
               onClick={() => {
