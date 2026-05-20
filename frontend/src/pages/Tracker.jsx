@@ -17,7 +17,7 @@ const COLUMNS = [
 
 function TrackerJobCard({ job, onMove }) {
   return (
-    <div className="glass-card p-3 flex flex-col gap-3">
+    <div className="glass-card p-3 flex flex-col gap-3 relative hover:z-50 focus-within:z-50">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-white break-words leading-snug">{job.title}</p>
