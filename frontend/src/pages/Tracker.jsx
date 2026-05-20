@@ -151,11 +151,11 @@ export default function Tracker() {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4 min-h-[calc(100vh-200px)]">
+        <div className="flex flex-col sm:flex-row gap-4 overflow-x-auto pb-4 min-h-[calc(100vh-200px)]">
           {COLUMNS.map((col) => {
             const jobs = board?.[col.id] || []
             return (
-              <div key={col.id} className="flex-shrink-0 w-64">
+              <div key={col.id} className="w-full sm:flex-shrink-0 sm:w-64">
                 {/* Column Header */}
                 <div className="flex items-center gap-2 mb-3 px-1">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: col.color }} />
