@@ -194,7 +194,7 @@ export default function Evaluator() {
                 <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
                   {unevaluatedJobs.map((job) => (
                     <div key={job.id} className="flex items-center gap-2">
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <JobCard job={job} compact />
                       </div>
                       <button
