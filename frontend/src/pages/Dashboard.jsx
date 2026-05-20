@@ -123,7 +123,10 @@ export default function Dashboard() {
                     borderRadius: '8px',
                     fontSize: '12px',
                     fontFamily: 'JetBrains Mono',
+                    color: '#fff',
                   }}
+                  itemStyle={{ color: '#fff' }}
+                  labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
                 />
                 <Bar dataKey="count" radius={[4, 4, 0, 0]}>
                   {scoreData.map((entry, index) => (
@@ -174,7 +177,9 @@ export default function Dashboard() {
                         border: '1px solid rgba(71,85,105,0.5)',
                         borderRadius: '8px',
                         fontSize: '12px',
+                        color: '#fff',
                       }}
+                      itemStyle={{ color: '#fff' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>

@@ -293,7 +293,10 @@ export default function Evaluator() {
                           borderRadius: '8px',
                           fontSize: '12px',
                           fontFamily: 'JetBrains Mono',
+                          color: '#fff',
                         }}
+                        itemStyle={{ color: '#fff' }}
+                        labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
                         formatter={(val) => [`${val.toFixed(1)} / 5.0`]}
                       />
                       <Bar dataKey="score" radius={[0, 4, 4, 0]}>
